@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "tb_alunos")
+@Table(name = "alunos")
 public class Aluno {
 
     @Id
@@ -72,6 +72,18 @@ public class Aluno {
 
     public void desativar() {
         this.status = StatusAluno.INATIVO;
+    }
+
+    public void atualizar(
+            String nome,
+            String telefone,
+            String email,
+            LocalDate dataNascimento
+    ) {
+        this.nome = nome;
+        this.telefone = telefone;
+        this.email = email;
+        this.dataNascimento = dataNascimento;
     }
 
     @PrePersist
