@@ -10,9 +10,11 @@ import dev.kellyson.monster_fitness.treino.dto.AtualizarTreinoRequest;
 import dev.kellyson.monster_fitness.treino.dto.CriarTreinoRequest;
 import dev.kellyson.monster_fitness.treino.dto.TreinoResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TreinoService {
@@ -35,6 +37,8 @@ public class TreinoService {
 
         Treino treino = TreinoMapper.paraEntidade(aluno, request);
         treinoRepository.save(treino);
+
+        log.info("Treino criado com sucesso para o aluno com ID {}", alunoId);
     }
 
     @Transactional(readOnly = true)
@@ -56,7 +60,13 @@ public class TreinoService {
     @Transactional
     public void desativar(Long id) {
         Treino treino = buscarPorId(id);
+
+        if (!treino.isAtivo()) {
+            throw new ConflictException("O treino já está desativado");
+        }
+
         treino.desativar();
+        log.info("Treino desativado com sucesso. treinoId={}", id);
     }
 
     private Treino buscarPorId(Long id) {
