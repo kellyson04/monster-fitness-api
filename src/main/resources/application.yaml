@@ -1,6 +1,6 @@
 spring:
   application:
-    name: monster-fitness-api
+    name: academia-lab-api
 
   datasource:
     url: ${DB_URL}
